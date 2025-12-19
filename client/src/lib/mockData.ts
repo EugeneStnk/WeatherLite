@@ -75,6 +75,16 @@ export const mockWeatherData: Record<string, WeatherData> = {
     windSpeed: 14,
     condition: 'partly-cloudy',
     description: 'Мінлива хмарність'
+  },
+  'london': {
+    city: 'London',
+    country: 'GB',
+    temperature: 15,
+    feelsLike: 13,
+    humidity: 72,
+    windSpeed: 18,
+    condition: 'cloudy',
+    description: 'Cloudy'
   }
 };
 

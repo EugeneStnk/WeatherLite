@@ -52,7 +52,9 @@ export default function Home() {
       'kyiv': 'kyiv',
       'lviv': 'lviv',
       'odesa': 'odesa',
-      'kharkiv': 'kharkiv'
+      'kharkiv': 'kharkiv',
+      'london': 'london',
+      'лондон': 'london'
     };
 
     const mappedKey = cityMappings[cityKey];
@@ -65,7 +67,7 @@ export default function Home() {
     } else {
       toast({
         title: 'Місто не знайдено',
-        description: 'Спробуйте інше місто (Київ, Львів, Суми, Одеса, Харків)',
+        description: 'Спробуйте інше місто (Київ, Львів, Суми, Одеса, Харків, London)',
         variant: 'destructive',
       });
     }
