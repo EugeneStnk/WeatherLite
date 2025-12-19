@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import SearchHeader from '@/components/SearchHeader';
 import CurrentWeatherCard from '@/components/CurrentWeatherCard';
 import ForecastSection from '@/components/ForecastSection';
@@ -6,12 +6,35 @@ import FavoritesSidebar from '@/components/FavoritesSidebar';
 import { mockWeatherData, mockForecast, defaultFavorites, type FavoriteCity, type WeatherData } from '@/lib/mockData';
 import { useToast } from '@/hooks/use-toast';
 
+const FAVORITES_STORAGE_KEY = 'weatherlite_favorites';
+
 export default function Home() {
   // todo: remove mock functionality
   const [currentWeather, setCurrentWeather] = useState<WeatherData>(mockWeatherData['sumy']);
   const [favorites, setFavorites] = useState<FavoriteCity[]>(defaultFavorites);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
+
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
+    if (savedFavorites) {
+      try {
+        setFavorites(JSON.parse(savedFavorites));
+      } catch {
+        setFavorites(defaultFavorites);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save favorites to localStorage whenever they change
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
+    }
+  }, [favorites, isLoaded]);
 
   const isFavorite = favorites.some(
     f => f.name.toLowerCase() === currentWeather.city.toLowerCase()
